@@ -14,10 +14,6 @@ public class InMemoryUserStorage implements UserStorage {
     public final HashMap<Long, User> users = new HashMap<>();
     private static long id = 0l;
 
-
-
-
-
     @Override
     public User create(User user) {
         if (users.values().stream().noneMatch(u -> Objects.equals(user.getEmail(), u.getEmail()))) {
@@ -65,6 +61,4 @@ public class InMemoryUserStorage implements UserStorage {
         if (user != null) return Optional.of(user);
         else return Optional.empty();
     }
-
-
 }

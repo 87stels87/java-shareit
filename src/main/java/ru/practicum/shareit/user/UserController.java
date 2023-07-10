@@ -7,15 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.exceptions.BadRequestException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Slf4j
 @RestController
 @RequestMapping(path = "/users")
@@ -28,13 +23,11 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @PostMapping()
     public UserDto create(@Valid @RequestBody UserDto userDto) {
         log.info("Получен запрос на создание юзера {}", userDto);
         return userService.create(userDto);
     }
-
 
     @GetMapping()
     public Collection<UserDto> findAll() {
@@ -69,6 +62,7 @@ public class UserController {
                 "Сообщение об ошибке", e.getMessage()
         );
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handle(final BadRequestException e) {
