@@ -13,10 +13,6 @@ public class InMemoryItemStorage implements ItemStorage {
     private final Map<Long, Item> items = new HashMap<>();
     private Long id = 0L;
 
-//    private Long getNextId() {
-//        return ++id;
-//    }
-
     @Override
     public Item getItemInfo(Long itemId) {
         return items.get(itemId);

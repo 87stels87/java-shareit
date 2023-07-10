@@ -12,7 +12,7 @@ import java.util.*;
 public class InMemoryUserStorage implements UserStorage {
 
     public final HashMap<Long, User> users = new HashMap<>();
-    private static long id = 0l;
+    private static long id = 0L;
 
     @Override
     public User create(User user) {
