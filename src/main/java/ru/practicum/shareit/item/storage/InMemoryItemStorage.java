@@ -40,7 +40,7 @@ public class InMemoryItemStorage implements ItemStorage {
     }
 
     @Override
-    public Collection<Item> getById(Long userId) {
+    public Collection<Item> getAllItemsByUserId(Long userId) {
         return items.values();
     }
 

@@ -11,7 +11,7 @@ public interface ItemStorage {
 
     Item change(Long itemId, Long userId, Item itemUpdate);
 
-    Collection<Item> getById(Long userId);
+    Collection<Item> getAllItemsByUserId(Long userId);
 
     Collection<Item> getByKeyWords(String text);
 }

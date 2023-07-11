@@ -42,7 +42,7 @@ public class ItemService {
     }
 
     public Collection<ItemDto> getItemsByUserId(Long userId) {
-        return itemStorage.getById(userId).stream()
+        return itemStorage.getAllItemsByUserId(userId).stream()
                 .filter(item -> Objects.equals(item.getOwner().getId(), userId))
                 .map(ItemMapper::toItemDto)
                 .collect(Collectors.toList());
