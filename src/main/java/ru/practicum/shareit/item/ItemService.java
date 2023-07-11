@@ -36,8 +36,9 @@ public class ItemService {
     }
 
     public ItemDto changeItem(Long itemId, Long userId, ItemDto itemDto) {
-        if (userStorage.getById(userId).isEmpty()) throw new NotFoundException("Юзер не найден");
-        Item item = ItemMapper.toItem(itemDto, userStorage.getById(userId).get(), null);
+        Optional<User> optionalUsersById = userStorage.getById(userId);
+        if (optionalUsersById.isEmpty()) throw new NotFoundException("Юзер не найден");
+        Item item = ItemMapper.toItem(itemDto, optionalUsersById.get(), null);
         return ItemMapper.toItemDto(itemStorage.change(itemId, userId, item));
     }
 

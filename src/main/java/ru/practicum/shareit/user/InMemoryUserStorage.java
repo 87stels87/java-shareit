@@ -38,7 +38,7 @@ public class InMemoryUserStorage implements UserStorage {
         if (users.values().stream()
                 .filter(u -> !Objects.equals(u.getId(), userId))
                 .anyMatch(u -> Objects.equals(user.getEmail(), u.getEmail())))
-            throw new ValidationException("С таким емейл юзер существуует");
+            throw new ValidationException("С таким емейл юзер существует");
         User userUpdate = users.get(userId);
         user.setId(userId);
         if (user.getName() == null) user.setName(userUpdate.getName());
