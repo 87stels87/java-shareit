@@ -28,9 +28,8 @@ public class ItemService {
     public ItemDto addNewItem(ItemDto itemDto, Long userId) {
         Optional<User> user = userStorage.getById(userId);
         if (user.isEmpty()) throw new NotFoundException("Юзер не найден");
-        if (itemDto.getName() == null || itemDto.getDescription() == null || itemDto.getAvailable() == null)
-            throw new BadRequestException("У вещи отсутствуют/пусты обязательные реквизиты");
-        if (itemDto.getName().isBlank() || itemDto.getDescription().isBlank())
+        if ((itemDto.getName() == null || itemDto.getDescription() == null || itemDto.getAvailable() == null) ||
+                (itemDto.getName().isBlank() || itemDto.getDescription().isBlank()))
             throw new BadRequestException("У вещи отсутствуют/пусты обязательные реквизиты");
         return ItemMapper.toItemDto(itemStorage.add(ItemMapper.toItem(itemDto, user.get(), null)));
     }
