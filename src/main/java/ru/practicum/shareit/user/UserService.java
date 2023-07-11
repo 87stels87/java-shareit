@@ -3,6 +3,7 @@ package ru.practicum.shareit.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.exceptions.BadRequestException;
+import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.exceptions.ValidationException;
 
 import java.util.Collection;
@@ -33,7 +34,7 @@ public class UserService {
 
     public UserDto getUserById(Long userId) {
         return UserMapper.toUserDto(inMemoryUserStorage.getById(userId)
-                .orElseThrow(() -> new ValidationException("Такого id нет")));
+                .orElseThrow(() -> new NotFoundException("Такого id нет")));
     }
 
     public void deleteUserById(Long userId) {
