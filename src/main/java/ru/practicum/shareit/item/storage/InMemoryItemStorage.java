@@ -20,7 +20,6 @@ public class InMemoryItemStorage implements ItemStorage {
 
     @Override
     public Item add(Item item) {
-      //  Long itemId = getNextId();
         Long itemId = ++id;
         item.setId(itemId);
         items.put(itemId, item);

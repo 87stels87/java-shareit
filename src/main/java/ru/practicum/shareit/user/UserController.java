@@ -58,16 +58,18 @@ public class UserController {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, String> handle(final NotFoundException e) {
+        log.error("Обработка исключения NotFoundException", e);
         return Map.of(
-                "Сообщение об ошибке", e.getMessage()
+                "error_message", e.getMessage()
         );
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handle(final BadRequestException e) {
+        log.error("Обработка исключения BadRequestException", e);
         return Map.of(
-                "Сообщение об ошибке", e.getMessage()
+                "error_message", e.getMessage()
         );
     }
 }
