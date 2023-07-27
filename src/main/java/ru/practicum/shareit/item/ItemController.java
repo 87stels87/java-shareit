@@ -1,78 +1,68 @@
 package ru.practicum.shareit.item;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.exceptions.BadRequestException;
-import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.comment.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 
+import javax.validation.Valid;
 import java.util.Collection;
-import java.util.Map;
 
 @Validated
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/items")
 public class ItemController {
 
     private final ItemService itemService;
 
-    @Autowired
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
-    }
 
     @PostMapping
-    public ItemDto addNewItem(@RequestBody ItemDto itemDto,
+    public ItemDto addNewItem(@RequestBody @Valid ItemDto itemDto,
                               @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Запрос на добавление новой вещи {} юзером с id = {}", itemDto, userId);
-        return itemService.addNewItem(itemDto, userId);
+        log.info("addNewItem = {} by userId = {}", itemDto, userId);
+        return itemService.addNewItem(userId, itemDto);
     }
+
 
     @PatchMapping("/{itemId}")
     public ItemDto changeItem(@PathVariable Long itemId,
                               @RequestHeader("X-Sharer-User-Id") Long userId,
                               @RequestBody ItemDto itemDto) {
-        log.info("Запрос на редактирование атрибута вещи {}", itemDto);
+        log.info("changeItem, item = {}", itemDto);
         return itemService.changeItem(itemId, userId, itemDto);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItemInfo(@PathVariable Long itemId) {
-        log.info("Запрос на получение информации о вещи с id = {}", itemId);
-        return itemService.getItemInfo(itemId);
+    public ItemDto getItemInfo(
+            @PathVariable Long itemId,
+            @RequestHeader("X-Sharer-User-Id") Long userId
+    ) {
+        log.info("getItemInfo by id, id = {}", itemId);
+        return itemService.getItemInfoById(itemId, userId);
     }
 
     @GetMapping
     public Collection<ItemDto> getAllItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("Запрос на получение списка вещей юзера с id ={}", userId);
+        log.info("getAllItems by userid ={}", userId);
         return itemService.getItemsByUserId(userId);
     }
 
     @GetMapping("/search")
     public Collection<ItemDto> getSearchItemsByWord(@RequestParam String text) {
-        log.info("запрос на поиск по тексту", text);
-        return itemService.getSearchByWord(text);
+        log.info("search by text: ", text);
+        return itemService.getItemsByKeyword(text);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handle(final NotFoundException e) {
-        log.error("Обработка исключения NotFoundException", e);
-        return Map.of(
-                "error_message", e.getMessage()
-        );
-    }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handle(final BadRequestException e) {
-        log.error("Обработка исключения BadRequestException", e);
-        return Map.of(
-                "error_message", e.getMessage()
-        );
+    @PostMapping("/{itemId}/comment")
+    public CommentDto postComment(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId,
+                                  @RequestBody @Valid CommentDto commentDto
+    ) {
+        log.info("postComment, id = {}, comment = {}, userId = {}", itemId, commentDto.getText());
+        return itemService.postComment(userId, itemId, commentDto);
     }
 }
