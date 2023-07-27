@@ -35,7 +35,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public ItemDto getItemInfoById(Long itemId, Long userId) {
+    public ItemDto getItemInfoById(long itemId, long userId) {
         helperService.checkItem(itemId);
         Item item = itemRepo.findById(itemId).get();
 
@@ -74,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public ItemDto addNewItem(Long userId, ItemDto itemDto) {
+    public ItemDto addNewItem(long userId, ItemDto itemDto) {
         helperService.checkUser(userId);
         User user = userRepo.findById(userId).get();
         Item item = ItemMapper.returnItem(itemDto, user);
@@ -84,7 +84,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public ItemDto changeItem(Long itemId, Long userId, ItemDto itemDto) {
+    public ItemDto changeItem(long itemId, long userId, ItemDto itemDto) {
         helperService.checkUser(userId);
         User user = userRepo.findById(userId).get();
 
@@ -118,7 +118,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional
     @Override
-    public List<ItemDto> getItemsByUserId(Long userId) {
+    public List<ItemDto> getItemsByUserId(long userId) {
         helperService.checkUser(userId);
 
         List<ItemDto> resultList = new ArrayList<>();

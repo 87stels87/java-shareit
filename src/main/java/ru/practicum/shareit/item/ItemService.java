@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface ItemService {
 
-    ItemDto getItemInfoById(Long itemId, Long userId);
+    ItemDto getItemInfoById(long itemId, long userId);
 
-    ItemDto addNewItem(Long userId, ItemDto itemDto);
+    ItemDto addNewItem(long userId, ItemDto itemDto);
 
-    ItemDto changeItem(Long itemId, Long userId, ItemDto itemDto);
+    ItemDto changeItem(long itemId, long userId, ItemDto itemDto);
 
-    List<ItemDto> getItemsByUserId(Long userId);
+    List<ItemDto> getItemsByUserId(long userId);
 
     List<ItemDto> getItemsByKeyword(String text);
 
