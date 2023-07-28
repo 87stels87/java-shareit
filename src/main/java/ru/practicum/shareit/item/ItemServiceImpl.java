@@ -85,8 +85,9 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     @Override
     public ItemDto changeItem(long itemId, long userId, ItemDto itemDto) {
-        helperService.checkUser(userId);
-        User user = userRepo.findById(userId).get();
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new NotFoundException("item not found"));
 
         helperService.checkItem(itemId);
         Item item = ItemMapper.returnItem(itemDto, user);

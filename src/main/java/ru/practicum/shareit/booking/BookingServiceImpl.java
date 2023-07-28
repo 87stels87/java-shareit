@@ -30,11 +30,10 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingOutputDto addBooking(BookingDto bookingDto, long userId) {
 
-        helperService.checkItem(bookingDto.getItemId());
-        Item item = itemRepo.findById(bookingDto.getItemId()).get();
-
-        helperService.checkUser(userId);
-        User user = userRepo.findById(userId).get();
+        Item item = itemRepo.findById(bookingDto.getItemId())
+                .orElseThrow(() -> new NotFoundException("item not found"));
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new NotFoundException("user not found"));
 
         Booking booking = BookingMapper.returnBooking(bookingDto);
         booking.setItem(item);
@@ -63,7 +62,8 @@ public class BookingServiceImpl implements BookingService {
     public BookingOutputDto approveBooking(long userId, long bookingId, Boolean approved) {
 
         helperService.checkBooking(bookingId);
-        Booking booking = bookingRepo.findById(bookingId).get();
+        Booking booking = bookingRepo.findById(bookingId)
+                .orElseThrow(() -> new NotFoundException("booking not found"));
 
         if (booking.getItem().getOwner().getId() != userId) {
             throw new NotFoundException(User.class, "Only owner " + userId + " items can change booking status");
