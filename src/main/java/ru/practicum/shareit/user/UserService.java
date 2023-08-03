@@ -1,42 +1,17 @@
 package ru.practicum.shareit.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import ru.practicum.shareit.exceptions.BadRequestException;
-import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.user.dto.UserDto;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
-@Service
-public class UserService {
-    private final InMemoryUserStorage inMemoryUserStorage;
+public interface UserService {
+    UserDto create(UserDto userDto);
 
-    @Autowired
-    public UserService(InMemoryUserStorage inMemoryUserStorage) {
-        this.inMemoryUserStorage = inMemoryUserStorage;
-    }
+    UserDto updateUser(UserDto userDto, long userId);
 
-    public UserDto create(UserDto userDto) {
-        if (userDto.getEmail() == null || userDto.getName() == null)
-            throw new BadRequestException("Email или имя = null");
-        return UserMapper.toUserDto(inMemoryUserStorage.create(UserMapper.toUser(userDto)));
-    }
+    Collection<UserDto> findAll();
 
-    public Collection<UserDto> findAll() {
-        return inMemoryUserStorage.findAll().stream().map(UserMapper::toUserDto).collect(Collectors.toList());
-    }
+    UserDto getUserById(long userId);
 
-    public UserDto updateUser(UserDto userDto, Long userId) {
-        return UserMapper.toUserDto(inMemoryUserStorage.update(UserMapper.toUser(userDto), userId));
-    }
-
-    public UserDto getUserById(Long userId) {
-        return UserMapper.toUserDto(inMemoryUserStorage.getById(userId)
-                .orElseThrow(() -> new NotFoundException("Такого id нет")));
-    }
-
-    public void deleteUserById(Long userId) {
-        inMemoryUserStorage.deleteById(userId);
-    }
+    void deleteUserById(long userId);
 }
