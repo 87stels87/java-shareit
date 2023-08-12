@@ -20,8 +20,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = BookingController.class)
@@ -38,7 +37,7 @@ public class BookingControllerTest {
 
     private ItemDto itemDto;
 
-    private UserDto user;
+    private UserDto userDto;
 
     private BookingDto bookingDto;
 
@@ -50,40 +49,40 @@ public class BookingControllerTest {
     @BeforeEach
     void beforeEach() {
 
-        user = UserDto.builder()
+        userDto = UserDto.builder()
                 .id(1L)
-                .name("Anna")
-                .email("anna@yandex.ru")
+                .name("andrey")
+                .email("andrey@yandex.ru")
                 .build();
 
         itemDto = ItemDto.builder()
                 .requestId(1L)
-                .name("screwdriver")
-                .description("works well, does not ask to eat")
+                .name("hammer")
+                .description("steel hammer")
                 .available(true)
                 .build();
 
         bookingDto = BookingDto.builder()
                 .itemId(1L)
-                .start(LocalDateTime.of(2023, 8, 4, 0, 0))
-                .end(LocalDateTime.of(2023, 8, 4, 12, 0))
+                .start(LocalDateTime.of(2023, 9, 4, 0, 0))
+                .end(LocalDateTime.of(2023, 9, 4, 12, 0))
                 .build();
 
         bookingOutputDto1 = BookingOutputDto.builder()
                 .id(1L)
-                .start(LocalDateTime.of(2023, 8, 4, 0, 0))
-                .end(LocalDateTime.of(2023, 8, 4, 12, 0))
+                .start(LocalDateTime.of(2023, 9, 4, 0, 0))
+                .end(LocalDateTime.of(2023, 9, 4, 12, 0))
                 .item(itemDto)
-                .booker(user)
+                .booker(userDto)
                 .status(Status.APPROVED)
                 .build();
 
         bookingOutputDto2 = BookingOutputDto.builder()
                 .id(2L)
-                .start(LocalDateTime.of(2023, 8, 4, 14, 0))
-                .end(LocalDateTime.of(2023, 8, 4, 16, 0))
+                .start(LocalDateTime.of(2023, 9, 4, 14, 0))
+                .end(LocalDateTime.of(2023, 9, 4, 16, 0))
                 .item(itemDto)
-                .booker(user)
+                .booker(userDto)
                 .status(Status.APPROVED)
                 .build();
     }
@@ -154,5 +153,24 @@ public class BookingControllerTest {
                 .andExpect(content().json(mapper.writeValueAsString(List.of(bookingOutputDto1, bookingOutputDto2))));
 
         verify(bookingService, times(1)).getAllBookingsForAllItemsByOwnerId(1L, "ALL", 0, 10);
+    }
+
+    @Test
+    void addBooking() throws Exception {
+        when(bookingService.addBooking(any(BookingDto.class), anyLong())).thenReturn(bookingOutputDto1);
+
+        mvc.perform(post("/bookings")
+                .content(mapper.writeValueAsString(bookingDto))
+                .characterEncoding(StandardCharsets.UTF_8)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .header("X-Sharer-User-Id", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(bookingOutputDto1.getId()), Long.class))
+                .andExpect(jsonPath("$.status", is(bookingOutputDto1.getStatus().toString()), Status.class))
+                .andExpect(jsonPath("$.booker.id", is(bookingOutputDto1.getBooker().getId()), Long.class))
+                .andExpect(jsonPath("$.item.id", is(bookingOutputDto1.getItem().getId()), Long.class));
+
+        verify(bookingService, times(1)).addBooking(bookingDto, 1L);
     }
 }

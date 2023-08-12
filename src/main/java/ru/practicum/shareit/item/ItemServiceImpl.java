@@ -70,7 +70,7 @@ public class ItemServiceImpl implements ItemService {
         List<Comment> commentList = commentRepo.findByItemId(itemId);
 
         if (!commentList.isEmpty()) {
-            itemDto.setComments(CommentMapper.returnICommentDtoList(commentList));
+            itemDto.setComments(CommentMapper.returnCommentDtoList(commentList));
         } else {
             itemDto.setComments(Collections.emptyList());
         }
@@ -160,7 +160,7 @@ public class ItemServiceImpl implements ItemService {
             List<Comment> commentList = commentRepo.findByItemId(itemDto.getId());
 
             if (!commentList.isEmpty()) {
-                itemDto.setComments(CommentMapper.returnICommentDtoList(commentList));
+                itemDto.setComments(CommentMapper.returnCommentDtoList(commentList));
             } else {
                 itemDto.setComments(Collections.emptyList());
             }

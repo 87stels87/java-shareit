@@ -230,6 +230,24 @@ public class ItemServiceTest {
     }
 
     @Test
+    void addComment() {
+        when(userRepo.existsById(anyLong())).thenReturn(true);
+        when(userRepo.findById(anyLong())).thenReturn(Optional.of(user));
+        when(itemRepo.existsById(anyLong())).thenReturn(true);
+        when(itemRepo.findById(anyLong())).thenReturn(Optional.of(item));
+        when(bookingRepo.findFirstByItemIdAndBookerIdAndStatusAndEndBefore(anyLong(), anyLong(), any(Status.class), any(LocalDateTime.class))).thenReturn(Optional.of(booking1));
+        when(commentRepo.save(any(Comment.class))).thenReturn(comment);
+
+        CommentDto commentDtoTest = itemService.postComment(user.getId(), item.getId(), commentDto);
+
+        assertEquals(1, comment.getId());
+        assertEquals(commentDtoTest.getText(), comment.getText());
+        assertEquals(commentDtoTest.getAuthorName(), comment.getAuthor().getName());
+
+        verify(commentRepo, times(1)).save(any(Comment.class));
+    }
+
+    @Test
     void addCommentUserNotBookingItem() {
         when(userRepo.existsById(anyLong())).thenReturn(true);
         when(userRepo.findById(anyLong())).thenReturn(Optional.of(user));
