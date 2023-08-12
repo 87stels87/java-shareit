@@ -11,11 +11,11 @@ public interface ItemService {
 
     ItemDto addNewItem(long userId, ItemDto itemDto);
 
-    ItemDto changeItem(long itemId, long userId, ItemDto itemDto);
+    ItemDto changeItem(ItemDto itemDto, long userId, long itemId);
 
-    List<ItemDto> getItemsByUserId(long userId);
+    List<ItemDto> getItemsByUserId(long userId, Integer from, Integer size);
 
-    List<ItemDto> getItemsByKeyword(String text);
+    List<ItemDto> getItemsByKeyword(String text, Integer from, Integer size);
 
     CommentDto postComment(long userId, long itemId, CommentDto commentDto);
 

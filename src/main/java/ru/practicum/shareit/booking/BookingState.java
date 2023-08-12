@@ -13,7 +13,7 @@ public enum BookingState {
         try {
             return BookingState.valueOf(state);
         } catch (Exception e) {
-            throw new NotProcessStatusException("Unknown state: " + state);
+            throw new NotProcessStatusException("Unknown bookingstate: " + state);
         }
 
     }
