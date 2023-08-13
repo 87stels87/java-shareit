@@ -29,7 +29,7 @@ class RequestDtoTest {
         ItemDto itemDto = ItemDto.builder()
                 .requestId(1L)
                 .name("dvd")
-                .description("dvd paansonic")
+                .description("dvd panasonic")
                 .available(true)
                 .comments(Collections.emptyList())
                 .build();
@@ -47,4 +47,31 @@ class RequestDtoTest {
         assertThat(result).extractingJsonPathStringValue("$.description").isEqualTo("req1 text");
         assertThat(result).extractingJsonPathStringValue("$.created").isEqualTo(created.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")));
     }
+
+    @Test
+    void testItemRequestDto1() {
+
+        LocalDateTime created = LocalDateTime.of(2023, 8, 20, 11, 11);
+
+        ItemDto itemDto = ItemDto.builder()
+                .requestId(1L)
+                .name("dvd")
+                .description("dvd panasonic")
+                .available(true)
+                .comments(Collections.emptyList())
+                .build();
+
+        ItemRequestDto itemRequestDto = ItemRequestDto.builder()
+                .id(1L)
+                .description("req1 text")
+                .created(created)
+                .items(List.of(itemDto))
+                .build();
+        List<ItemRequestDto> result = List.of(itemRequestDto);
+
+        assertThat(result).size().isEqualTo(1);
+
+    }
+
+
 }
