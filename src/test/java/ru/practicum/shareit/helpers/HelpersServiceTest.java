@@ -33,31 +33,31 @@ public class HelpersServiceTest {
     private ItemRequestRepo itemRequestRepo;
 
     @Test
-    void testUser() {
+    void shouldThrowExceptionWhenUserNotFound() {
         when(userRepo.existsById(anyLong())).thenReturn(false);
         assertThrows(NotFoundException.class, () -> helperService.checkUser(2L));
     }
 
     @Test
-    void testItem() {
+    void shouldThrowExceptionWhenItemNotFound() {
         when(itemRepo.existsById(anyLong())).thenReturn(false);
         assertThrows(NotFoundException.class, () -> helperService.checkItem(2L));
     }
 
     @Test
-    void testBooking() {
+    void shouldThrowExceptionWhenBookingNotFound() {
         when(bookingRepo.existsById(anyLong())).thenReturn(false);
         assertThrows(NotFoundException.class, () -> helperService.checkBooking(2L));
     }
 
     @Test
-    void testRequest() {
+    void shouldThrowExceptionWhenItemReuestNotFound() {
         when(itemRequestRepo.existsById(anyLong())).thenReturn(false);
         assertThrows(NotFoundException.class, () -> helperService.checkRequest(2L));
     }
 
     @Test
-    void testPageSize() {
+    void shouldThrowExceptionWhenValidationFailed() {
         assertThrows(ValidationException.class, () -> helperService.checkPageSize(0, 0));
         assertThrows(ValidationException.class, () -> helperService.checkPageSize(10, -10));
         assertThrows(ValidationException.class, () -> helperService.checkPageSize(10, 0));
