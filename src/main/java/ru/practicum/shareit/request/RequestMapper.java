@@ -25,13 +25,4 @@ public class RequestMapper {
                 .build();
         return itemRequest;
     }
-
-//    public static List<ItemRequestDto> returnItemRequestDtoList(Iterable<ItemRequest> requests) {
-//        List<ItemRequestDto> result = new ArrayList<>();
-//
-//        for (ItemRequest itemRequest : requests) {
-//            result.add(returnItemRequestDto(itemRequest));
-//        }
-//        return result;
-//    }
 }
