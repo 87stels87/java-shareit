@@ -57,7 +57,7 @@ public class ItemControllerTest {
                 .build();
 
         itemRequest = ItemRequest.builder()
-                .id(1L)
+                .id(2L)
                 .description("ivan")
                 .requester(user)
                 .created(LocalDateTime.now())
