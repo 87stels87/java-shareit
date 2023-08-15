@@ -56,5 +56,4 @@ public class BookingMapper {
         }
         return result;
     }
-
 }

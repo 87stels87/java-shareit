@@ -28,7 +28,7 @@ public class CommentMapper {
         return comment;
     }
 
-    public static List<CommentDto> returnICommentDtoList(Iterable<Comment> comments) {
+    public static List<CommentDto> returnCommentDtoList(Iterable<Comment> comments) {
         List<CommentDto> result = new ArrayList<>();
 
         for (Comment comment : comments) {
