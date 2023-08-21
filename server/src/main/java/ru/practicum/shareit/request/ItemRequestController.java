@@ -1,0 +1,53 @@
+package ru.practicum.shareit.request;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.request.dto.ItemRequestDto;
+
+import javax.validation.Valid;
+import java.util.List;
+
+
+@Slf4j
+@Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(path = "/requests")
+public class ItemRequestController {
+    private final ItemRequestService itemRequestService;
+
+    @PostMapping
+    public ResponseEntity<ItemRequestDto> addRequest(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                                     @RequestBody @Valid ItemRequestDto itemRequestDto) {
+
+        log.info("User {}, add new ru.practicum.shareit.request", userId);
+        return ResponseEntity.ok(itemRequestService.addRequest(itemRequestDto, userId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ItemRequestDto>> getRequests(@RequestHeader("X-Sharer-User-Id") Long userId) {
+
+        log.info("Get requests by ru.practicum.shareit.user Id {}", userId);
+        return ResponseEntity.ok(itemRequestService.getRequests(userId));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ItemRequestDto>> getAllRequests(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                                               @RequestParam(defaultValue = "0", required = false) Integer from,
+                                                               @RequestParam(defaultValue = "10", required = false) Integer size) {
+
+        log.info("Get all requests by All users ");
+        return ResponseEntity.ok(itemRequestService.getAllRequests(userId, from, size));
+    }
+
+    @GetMapping("/{requestId}")
+    public ResponseEntity<ItemRequestDto> getRequestById(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                                         @PathVariable("requestId") Long requestId) {
+
+        log.info("Get ru.practicum.shareit.request {}", requestId);
+        return ResponseEntity.ok(itemRequestService.getRequestById(userId, requestId));
+    }
+}
