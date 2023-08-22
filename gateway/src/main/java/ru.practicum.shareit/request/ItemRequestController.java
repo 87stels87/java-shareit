@@ -15,8 +15,6 @@ import javax.validation.constraints.PositiveOrZero;
 import static ru.practicum.shareit.util.Constant.HEADER_USER;
 
 
-
-
 @Controller
 @RequestMapping(path = "/requests")
 @RequiredArgsConstructor

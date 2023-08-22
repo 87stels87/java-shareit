@@ -1,19 +1,17 @@
 package ru.practicum.shareit.item;
 
-import ru.practicum.shareit.item.dto.CommentDto;
-import ru.practicum.shareit.item.dto.ItemDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import ru.practicum.shareit.item.dto.CommentDto;
+import ru.practicum.shareit.item.dto.ItemDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-
 
 import static ru.practicum.shareit.util.Constant.HEADER_USER;
 
@@ -62,8 +60,8 @@ public class ItemController {
 
     @GetMapping("/search")
     public ResponseEntity<Object> getSearchItem(@RequestParam("text") String text,
-                                         @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
-                                         @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
+                                                @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                                @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
 
         log.info("Get ru.practicum.shareit.item with key substring {}", text);
         return itemClient.searchItem(text, from, size);

@@ -128,7 +128,7 @@ public class ItemServiceImpl implements ItemService {
         return ItemMapper.returnItemDto(newItem);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public List<ItemDto> getItemsByUserId(long userId, Integer from, Integer size) {
         helperService.checkUser(userId);

@@ -1,9 +1,8 @@
 package ru.practicum.shareit.item.dto;
 
-import ru.practicum.shareit.booking.dto.BookingDto;
 import lombok.Builder;
 import lombok.Data;
-
+import ru.practicum.shareit.booking.dto.BookingDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -16,18 +15,18 @@ public class ItemDto {
 
     private Long id;
 
-    @NotNull(message = "Name cannot be empty or contain spaces.")
-    @NotBlank(message = "Name cannot be empty or contain spaces.")
+    @NotNull
+    @NotBlank
     private String name;
 
-    @NotNull(message = "Description cannot be empty")
-    @NotBlank(message = "Description cannot be blank")
+    @NotNull
+    @NotBlank
     private String description;
 
-    @NotNull(message = "Available cannot be empty")
+    @NotNull
     private Boolean available;
 
-    @Positive(message = "must be positive")
+    @Positive
     private Long requestId;
 
     private BookingDto lastBooking;
