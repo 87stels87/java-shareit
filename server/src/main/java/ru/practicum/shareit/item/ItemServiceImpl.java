@@ -132,8 +132,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> getItemsByUserId(long userId, Integer from, Integer size) {
         helperService.checkUser(userId);
-        //    PageRequest pageRequest = helperService.checkPageSize(from, size);
-        PageRequest pageRequest = PageRequest.of(from / size, size);
+        PageRequest pageRequest = helperService.checkPageSize(from, size);
+        //  PageRequest pageRequest = PageRequest.of(from / size, size);
+
         List<ItemDto> resultList = new ArrayList<>();
 
         for (ItemDto itemDto : ItemMapper.returnItemDtoList(itemRepo.findByOwnerId(userId, pageRequest))) {
