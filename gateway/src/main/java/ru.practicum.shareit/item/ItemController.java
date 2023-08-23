@@ -28,7 +28,7 @@ public class ItemController {
     public ResponseEntity<Object> addItem(@RequestHeader(HEADER_USER) Long userId,
                                           @RequestBody @Valid ItemDto itemDto) {
 
-        log.info("User {}, add new ru.practicum.shareit.item {}", userId, itemDto.getName());
+        log.info("User {}, add new item {}", userId, itemDto.getName());
         return itemClient.addItem(userId, itemDto);
     }
 
@@ -37,7 +37,7 @@ public class ItemController {
                                              @RequestBody ItemDto itemDto,
                                              @PathVariable("itemId") Long itemId) {
 
-        log.info("User {}, update ru.practicum.shareit.item {}", userId, itemDto.getName());
+        log.info("User {}, update item {}", userId, itemDto.getName());
         return itemClient.updateItem(userId, itemId, itemDto);
     }
 
@@ -45,7 +45,7 @@ public class ItemController {
     public ResponseEntity<Object> getItem(@RequestHeader(HEADER_USER) Long userId,
                                           @PathVariable("itemId") Long itemId) {
 
-        log.info("Get ru.practicum.shareit.item {}", itemId);
+        log.info("Get itemId {}", itemId);
         return itemClient.getItemById(itemId, userId);
     }
 
@@ -63,7 +63,7 @@ public class ItemController {
                                                 @PositiveOrZero @RequestParam(name = "from", defaultValue = "0") Integer from,
                                                 @Positive @RequestParam(name = "size", defaultValue = "10") Integer size) {
 
-        log.info("Get ru.practicum.shareit.item with key substring {}", text);
+        log.info("Get search by text {}", text);
         return itemClient.searchItem(text, from, size);
     }
 

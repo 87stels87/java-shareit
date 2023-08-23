@@ -23,14 +23,14 @@ public class ItemRequestController {
     public ResponseEntity<ItemRequestDto> addRequest(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                      @RequestBody @Valid ItemRequestDto itemRequestDto) {
 
-        log.info("User {}, add new ru.practicum.shareit.request", userId);
+        log.info("User {}, add new request", userId);
         return ResponseEntity.ok(itemRequestService.addRequest(itemRequestDto, userId));
     }
 
     @GetMapping
     public ResponseEntity<List<ItemRequestDto>> getRequests(@RequestHeader("X-Sharer-User-Id") Long userId) {
 
-        log.info("Get requests by ru.practicum.shareit.user Id {}", userId);
+        log.info("Get user Id {}", userId);
         return ResponseEntity.ok(itemRequestService.getRequests(userId));
     }
 
@@ -47,7 +47,7 @@ public class ItemRequestController {
     public ResponseEntity<ItemRequestDto> getRequestById(@RequestHeader("X-Sharer-User-Id") Long userId,
                                                          @PathVariable("requestId") Long requestId) {
 
-        log.info("Get ru.practicum.shareit.request {}", requestId);
+        log.info("Get request {}", requestId);
         return ResponseEntity.ok(itemRequestService.getRequestById(userId, requestId));
     }
 }

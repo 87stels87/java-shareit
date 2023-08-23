@@ -33,7 +33,7 @@ public class ItemController {
     public ResponseEntity<ItemDto> changeItem(@PathVariable Long itemId,
                                               @RequestHeader("X-Sharer-User-Id") Long userId,
                                               @RequestBody ItemDto itemDto) {
-        log.info("changeItem, ru.practicum.shareit.item = {}", itemDto);
+        log.info("changeItem, item = {}", itemDto);
         return ResponseEntity.ok(itemService.changeItem(itemDto, itemId, userId));
     }
 

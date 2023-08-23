@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<Object> getAllUsers() {
 
-        log.info("List all Users");
+        log.info("get All Users");
         return userClient.getAllUsers();
     }
 

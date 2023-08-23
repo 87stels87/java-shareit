@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping()
     public UserDto create(@RequestBody @Valid UserDto userDto) {
-        log.info("create ru.practicum.shareit.user by data {}", userDto);
+        log.info("create user by data {}", userDto);
         return userService.create(userDto);
     }
 
@@ -33,7 +33,7 @@ public class UserController {
 
     @PatchMapping("/{userId}")
     public UserDto updateUser(@RequestBody UserDto userDto, @PathVariable Long userId) {
-        log.info("update ru.practicum.shareit.user by id = {}, new data: {}", userId, userDto);
+        log.info("update user by id = {}, new data: {}", userId, userDto);
         return userService.updateUser(userDto, userId);
     }
 

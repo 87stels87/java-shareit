@@ -29,14 +29,14 @@ public class ItemRequestController {
     public ResponseEntity<Object> addRequest(@RequestHeader(HEADER_USER) Long userId,
                                              @RequestBody @Valid ItemRequestDto itemRequestDto) {
 
-        log.info("User {}, add new ru.practicum.shareit.booking", userId);
+        log.info("User {}, add new booking", userId);
         return itemRequestClient.addRequest(userId, itemRequestDto);
     }
 
     @GetMapping
     public ResponseEntity<Object> getRequests(@RequestHeader(HEADER_USER) Long userId) {
 
-        log.info("Get requests by ru.practicum.shareit.user Id {}", userId);
+        log.info("Get requests by userId {}", userId);
         return itemRequestClient.getRequests(userId);
     }
 
@@ -53,7 +53,7 @@ public class ItemRequestController {
     public ResponseEntity<Object> getRequestById(@RequestHeader(HEADER_USER) Long userId,
                                                  @PathVariable("requestId") Long requestId) {
 
-        log.info("Get ru.practicum.shareit.request {}", requestId);
+        log.info("Get requestId {}", requestId);
         return itemRequestClient.getRequestById(userId, requestId);
     }
 }

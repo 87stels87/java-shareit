@@ -30,7 +30,7 @@ public class BookingController {
     public ResponseEntity<Object> addBooking(@RequestHeader(HEADER_USER) Long userId,
                                              @RequestBody @Valid BookingDto bookingDto) {
 
-        log.info("User {}, add new ru.practicum.shareit.booking", userId);
+        log.info("User {}, add booking", userId);
         return bookingClient.addBooking(userId, bookingDto);
     }
 
@@ -39,7 +39,7 @@ public class BookingController {
                                                  @PathVariable Long bookingId,
                                                  @RequestParam Boolean approved) {
 
-        log.info("User {}, changed the status ru.practicum.shareit.booking {}", userId, bookingId);
+        log.info("User {}, changed the status by bookingId {}", userId, bookingId);
         return bookingClient.approveBooking(userId, bookingId, approved);
     }
 
@@ -47,7 +47,7 @@ public class BookingController {
     public ResponseEntity<Object> getBookingById(@RequestHeader(HEADER_USER) Long userId,
                                                  @PathVariable Long bookingId) {
 
-        log.info("Get ru.practicum.shareit.booking {}", bookingId);
+        log.info("Get bookingId {}", bookingId);
         return bookingClient.getBookingById(userId, bookingId);
     }
 
@@ -60,7 +60,7 @@ public class BookingController {
         BookingState state = BookingState.from(stateParam)
                 .orElseThrow(() -> new UnsupportedStatusException("Unknown state: " + stateParam));
 
-        log.info("Get all bookings by booker Id {}", userId);
+        log.info("Get all bookings by bookerId {}", userId);
         return bookingClient.getAllBookingsByBookerId(userId, state, from, size);
     }
 
@@ -73,7 +73,7 @@ public class BookingController {
         BookingState state = BookingState.from(stateParam)
                 .orElseThrow(() -> new UnsupportedStatusException("Unknown state: " + stateParam));
 
-        log.info("Get all bookings for all items by owner Id {}", userId);
+        log.info("Get all bookings by userId {}", userId);
         return bookingClient.getAllBookingsForAllItemsByOwnerId(userId, state, from, size);
     }
 }
