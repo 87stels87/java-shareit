@@ -105,7 +105,7 @@ public class ItemServiceImpl implements ItemService {
 
         item.setId(itemId);
 
-        if (!itemRepo.findByOwnerId(userId).contains(item)) {
+        if (!itemRepo.findByOwnerIdOrderById(userId).contains(item)) {
             throw new NotFoundException(Item.class, "the ru.practicum.shareit.item was not found with the ru.practicum.shareit.user id " + userId);
         }
 
@@ -132,12 +132,12 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<ItemDto> getItemsByUserId(long userId, Integer from, Integer size) {
         helperService.checkUser(userId);
-        PageRequest pageRequest = helperService.checkPageSize(from, size);
-        //  PageRequest pageRequest = PageRequest.of(from / size, size);
+        //     PageRequest pageRequest = helperService.checkPageSize(from, size);
+        PageRequest pageRequest = PageRequest.of(from / size, size);
 
         List<ItemDto> resultList = new ArrayList<>();
 
-        for (ItemDto itemDto : ItemMapper.returnItemDtoList(itemRepo.findByOwnerId(userId, pageRequest))) {
+        for (ItemDto itemDto : ItemMapper.returnItemDtoList(itemRepo.findByOwnerIdOrderById(userId, pageRequest))) {
 
             Optional<Booking> lastBooking = bookingRepo.findFirstByItemIdAndStatusAndStartBeforeOrderByStartDesc(itemDto.getId(), Status.APPROVED, LocalDateTime.now());
             Optional<Booking> nextBooking = bookingRepo.findFirstByItemIdAndStatusAndStartAfterOrderByStartAsc(itemDto.getId(), Status.APPROVED, LocalDateTime.now());

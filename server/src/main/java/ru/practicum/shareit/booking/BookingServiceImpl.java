@@ -138,7 +138,7 @@ public class BookingServiceImpl implements BookingService {
 
         helperService.checkUser(userId);
         PageRequest pageRequest = helperService.checkPageSize(from, size);
-        if (itemRepo.findByOwnerId(userId).isEmpty()) {
+        if (itemRepo.findByOwnerIdOrderById(userId).isEmpty()) {
             throw new ValidationException("User does not have for ru.practicum.shareit.booking");
         }
 

@@ -141,7 +141,7 @@ public class ItemServiceTest {
         when(userRepo.existsById(anyLong())).thenReturn(true);
         when(userRepo.findById(anyLong())).thenReturn(Optional.of(user));
         when(itemRepo.existsById(anyLong())).thenReturn(true);
-        when(itemRepo.findByOwnerId(anyLong())).thenReturn(List.of(item));
+        when(itemRepo.findByOwnerIdOrderById(anyLong())).thenReturn(List.of(item));
         when(itemRepo.findById(anyLong())).thenReturn(Optional.of(item));
         when(itemRepo.save(any(Item.class))).thenReturn(item);
 
@@ -160,7 +160,7 @@ public class ItemServiceTest {
         when(itemRepo.existsById(anyLong())).thenReturn(true);
         when(itemRepo.findById(anyLong())).thenReturn(Optional.of(item));
 
-        when(itemRepo.findByOwnerId(anyLong())).thenReturn(Collections.emptyList());
+        when(itemRepo.findByOwnerIdOrderById(anyLong())).thenReturn(Collections.emptyList());
 
         assertThrows(NotFoundException.class, () -> itemService.changeItem(itemDto, item.getId(), user.getId()));
     }
@@ -188,7 +188,7 @@ public class ItemServiceTest {
     void getItemsUser() {
         when(userRepo.existsById(anyLong())).thenReturn(true);
         when(helperService.checkPageSize(anyInt(), anyInt())).thenReturn(PageRequest.of(5 / 10, 10));
-        when(itemRepo.findByOwnerId(anyLong(), any(PageRequest.class))).thenReturn(new PageImpl<>(List.of(item)));
+        when(itemRepo.findByOwnerIdOrderById(anyLong(), any(PageRequest.class))).thenReturn(new PageImpl<>(List.of(item)));
         when(bookingRepo.findFirstByItemIdAndStatusAndStartBeforeOrderByStartDesc(item.getId(), Status.APPROVED, LocalDateTime.now())).thenReturn(Optional.of(booking1));
         when(bookingRepo.findFirstByItemIdAndStatusAndStartAfterOrderByStartAsc(item.getId(), Status.APPROVED, LocalDateTime.now())).thenReturn(Optional.of(booking2));
         when(commentRepo.findByItemId(anyLong())).thenReturn(List.of(comment));
@@ -200,7 +200,7 @@ public class ItemServiceTest {
         assertEquals(itemDtoTest.getAvailable(), item.getAvailable());
         assertEquals(itemDtoTest.getRequestId(), item.getRequest().getId());
 
-        verify(itemRepo, times(1)).findByOwnerId(anyLong(), any(PageRequest.class));
+        verify(itemRepo, times(1)).findByOwnerIdOrderById(anyLong(), any(PageRequest.class));
     }
 
     @Test
